@@ -41,25 +41,27 @@ function turnOffPump() {
 //end pump
 
 // get temp
-// function getTemp() {
-//     var dataRef = db.ref('/data/temperature');
-//     dataRef.on('value', function(snapshot) {
-//         // snapshot.forEach(function(childSnapshot) {
-//         var childData = snapshot.val();
-//         document.getElementById('temp').innerHTML = childData;
-//         // });
-//     });
-// }
 function getTemp() {
-    var abc;
-    var dataRef = db.ref('/user').childNodes;
+    var dataRef = db.ref('/data/temperature');
     dataRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
-        abc = childData;
         document.getElementById('temp').innerHTML = childData;
         // });
     });
-    console.log(abc[0]);
 }
 //end get temp
+
+//test user
+// function getTemp() {
+//     var abc;
+//     var dataRef = db.ref('/user').childNodes;
+//     dataRef.on('value', function(snapshot) {
+//         // snapshot.forEach(function(childSnapshot) {
+//         var childData = snapshot.val();
+//         abc = childData;
+//         document.getElementById('temp').innerHTML = childData;
+//         // });
+//     });
+//     console.log(abc[0]);
+// }
