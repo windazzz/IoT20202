@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/edit_pass.css">
+    <title>IoT Project</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- main  -->
+        <div class="topnav" id="myTopnav">
+            <a href="../html/main.html">Trang chủ</a>
+            <a href="../html/control.html">Điều khiển</a>
+            <a href="../html/chart.html">Thống kê</a>
+            <a href="../html/about.html">Thông tin</a>
+            <div class="dropdown">
+                <button class="dropbtn">Tài khoản ▼ </button>
+                <div class="dropdown-content">
+                    <a href="../html/edit_pass.html">Đổi mật khẩu</a>
+                    <a href="../html/login.html">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+        <div class="main_edit_pass">
+            <h3 class="header_edit_pass">Đổi mật khẩu</h3>
+            <form action="../html/main.html" method="POST" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td>
+                            <label>Mật khẩu cũ: </label>
+                        </td>
+                        <td>
+                            <input type="password" name="old_pass" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Mật khẩu mới: </label>
+                        </td>
+                        <td>
+                            <input type="password" name="new_pass1" id="myInput" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Nhập lại mật khẩu mới: </label>
+                        </td>
+                        <td>
+                            <input type="password" name="new_pass2" id="myInput" required>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <button type="submit">Cập nhật</button>
+                        </td>
+                        <td>
+                            <a href="../html/main.html"><button type="reset">Hủy</button></a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

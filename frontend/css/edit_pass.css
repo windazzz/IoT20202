@@ -1,0 +1,55 @@
+/*edit pass*/
+body {
+    margin: 0px auto;
+    background-color: rgb(201, 201, 201);
+}
+
+.main_edit_pass {
+    margin-top: 2em;
+    margin: auto;
+}
+
+.header_edit_pass {
+    padding: 1em;
+    width: max-content;
+    margin: auto;
+    font-size: 2em;
+}
+
+.main_edit_pass table {
+    margin: auto;
+}
+
+.main_edit_pass table button {
+    width: 9em;
+    height: 2em;
+    background-color: #EEEEEE;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:5px;
+    cursor:pointer;
+    margin-top: 2em;
+}
+
+.main_edit_pass table button:hover {
+    background-color: aquamarine;
+}
+
+@media screen and (min-width: 1000px) {
+    .main_edit_pass { 
+        width: 60%;
+        line-height: 1.8;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .main_edit_pass { 
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .main_edit_pass { 
+        width: 100%;
+    }
+}
