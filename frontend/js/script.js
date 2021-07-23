@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    checkTemp();
+    checkHumidity();
+});
+
+
 var config = {
     apiKey: "AIzaSyABbE3k9BSC4SZppDDIYL6mRDeBvH7ynYM",
     authDomain: "iotsmartgarden2020.web.app",
@@ -12,56 +18,156 @@ firebase.initializeApp(config);
 
 var db = firebase.database();
 
-//led
-function turnOnLight() {
-    var dataRef = db.ref('/control/led');
-    dataRef.set(1);
-}
-
-function turnOffLight() {
-    var dataRef = db.ref('/control/led');
-    dataRef.set(0);
-}
-
-//end led
-
-
-//edit pump
-function turnOnPump() {
-    var dataRef = db.ref('/user/quangtm/id');
-    dataRef.set(4);
-    // var dataRef = db.ref('/testdata/control/2/led');
-    // dataRef.set(1);
-}
-
-function turnOffPump() {
-    var dataRef = db.ref('/control/pump');
-    dataRef.set(0);
-}
-//end pump
-
-// get temp
-function getTemp() {
-    var dataRef = db.ref('/data/temperature');
+// quạt
+function checkTemp() {
+    var dataRef = db.ref('/test/device/1/data/temperature');
     dataRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
         document.getElementById('temp').innerHTML = childData;
         // });
+        if(childData < 10) {
+            document.getElementById('tempAlert').innerHTML = 'Quá lạnh';
+        } else if(childData >= 10 && childData <= 35) {
+            document.getElementById('tempAlert').innerHTML = 'Bình thường';
+        } else if(childData > 35) {
+            document.getElementById('tempAlert').innerHTML = 'Quá nóng';
+        }
+    });
+    var panRef = db.ref('/test/device/1/control/servo');
+    panRef.on('value', function(snapshot) {
+        // snapshot.forEach(function(childSnapshot) {
+        var childData = snapshot.val();
+        if(childData == 0) {
+            document.getElementById('tempControl').innerHTML = 'Đang tắt';
+            document.getElementById('turnOnPan').style.display = "block";
+            document.getElementById('turnOffPan').style.display = "none";
+        } else {
+            document.getElementById('tempControl').innerHTML = 'Đang bật';
+            document.getElementById('turnOnPan').style.display = "none";
+            document.getElementById('turnOffPan').style.display = "block";
+        }
     });
 }
-//end get temp
 
-//test user
+function turnOnPan() {
+    var dataRef = db.ref('/test/device/1/control/servo');
+    dataRef.set(1);
+    document.getElementById('tempControl').innerHTML = 'Đang bật';
+    document.getElementById('turnOnPan').style.display = "none";
+    document.getElementById('turnOffPan').style.display = "block";
+}
+
+function turnOffPan() {
+    var dataRef = db.ref('/test/device/1/control/servo');
+    dataRef.set(0);
+    document.getElementById('tempControl').innerHTML = 'Đang tắt';
+    document.getElementById('turnOnPan').style.display = "block";
+    document.getElementById('turnOffPan').style.display = "none";
+}
+
+
+
+// vòi nước
+function checkHumidity() {
+    var dataRef = db.ref('/test/device/1/data/humid');
+    dataRef.on('value', function(snapshot) {
+        // snapshot.forEach(function(childSnapshot) {
+        var childData = snapshot.val();
+        document.getElementById('humidityPercent').innerHTML = childData;
+        // });
+        if(childData < 0.5) {
+            document.getElementById('humidityAlert').innerHTML = 'Quá khô';
+        } else if(childData >= 0.5 && childData <= 2) {
+            document.getElementById('humidityAlert').innerHTML = 'Bình thường';
+        } else if(childData > 2) {
+            document.getElementById('humidityAlert').innerHTML = 'Quá ẩm';
+        }
+    });
+    var panRef = db.ref('/test/device/1/control/pump');
+    panRef.on('value', function(snapshot) {
+        // snapshot.forEach(function(childSnapshot) {
+        var childData = snapshot.val();
+        if(childData == 0) {
+            document.getElementById('humidityControl').innerHTML = 'Đang tắt';
+            document.getElementById('turnOnPump').style.display = "block";
+            document.getElementById('turnOffPump').style.display = "none";
+        } else {
+            document.getElementById('humidityControl').innerHTML = 'Đang bật';
+            document.getElementById('turnOnPump').style.display = "none";
+            document.getElementById('turnOffPump').style.display = "block";
+        }
+    });
+}
+
+
+
+function turnOnPump() {
+    var dataRef = db.ref('/test/device/1/control/pump');
+    dataRef.set(1);
+    document.getElementById('humidityControl').innerHTML = 'Đang bật';
+    document.getElementById('turnOnPump').style.display = "none";
+    document.getElementById('turnOffPump').style.display = "block";
+}
+
+function turnOffPump() {
+    var dataRef = db.ref('/test/device/1/control/pump');
+    dataRef.set(0);
+    document.getElementById('humidityControl').innerHTML = 'Đang tắt';
+    document.getElementById('turnOnPump').style.display = "block";
+    document.getElementById('turnOffPump').style.display = "none";
+}
+
+// //led
+// function turnOnLight() {
+//     var dataRef = db.ref('/control/led');
+//     dataRef.set(1);
+// }
+
+// function turnOffLight() {
+//     var dataRef = db.ref('/control/led');
+//     dataRef.set(0);
+// }
+
+// //end led
+
+
+// //edit pump
+// function turnOnPump() {
+//     var dataRef = db.ref('/user/quangtm/id');
+//     dataRef.set(4);
+//     // var dataRef = db.ref('/testdata/control/2/led');
+//     // dataRef.set(1);
+// }
+
+// function turnOffPump() {
+//     var dataRef = db.ref('/control/pump');
+//     dataRef.set(0);
+// }
+// //end pump
+
+// // get temp
 // function getTemp() {
-//     var abc;
-//     var dataRef = db.ref('/user').childNodes;
+//     var dataRef = db.ref('/data/temperature');
 //     dataRef.on('value', function(snapshot) {
 //         // snapshot.forEach(function(childSnapshot) {
 //         var childData = snapshot.val();
-//         abc = childData;
 //         document.getElementById('temp').innerHTML = childData;
 //         // });
 //     });
-//     console.log(abc[0]);
 // }
+// //end get temp
+
+// //test user
+// // function getTemp() {
+// //     var abc;
+// //     var dataRef = db.ref('/user').childNodes;
+// //     dataRef.on('value', function(snapshot) {
+// //         // snapshot.forEach(function(childSnapshot) {
+// //         var childData = snapshot.val();
+// //         abc = childData;
+// //         document.getElementById('temp').innerHTML = childData;
+// //         // });
+// //     });
+// //     console.log(abc[0]);
+// // }
