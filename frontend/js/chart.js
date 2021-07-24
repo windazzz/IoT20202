@@ -1,3 +1,18 @@
+var config = {
+    apiKey: "AIzaSyABbE3k9BSC4SZppDDIYL6mRDeBvH7ynYM",
+    authDomain: "iotsmartgarden2020.web.app",
+    // For databases not in the us-central1 location, databaseURL will be of the
+    // form https://[databaseName].[region].firebasedatabase.app.
+    // For example, https://your-database-123.europe-west1.firebasedatabase.app
+    databaseURL: "https://iotsmartgarden2020-default-rtdb.firebaseio.com",
+    storageBucket: "iotsmartgarden2020.appspot.com"
+};
+
+firebase.initializeApp(config);
+
+var db = firebase.database();
+
+
 // khởi tạo mảng các giá trị về nhiệt độ
 var a = {
     title: {
@@ -36,7 +51,7 @@ var a = {
 $(function () {
     //hàm chèn dữ liệu từ database realtime
     function updateTemp() {
-        var dataRef = db.ref('/data/temperature');
+        var dataRef = db.ref('/test/device/1/data/temperature');
         dataRef.on('value', function(snapshot) {
             // snapshot.forEach(function(childSnapshot) {
             var childData = snapshot.val();
