@@ -8,7 +8,12 @@ var config = {
     storageBucket: "iotsmartgarden2020.appspot.com"
 };
 
-firebase.initializeApp(config);
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+ }else {
+    firebase.app(); // if already initialized, use that one
+ }
+// firebase.initializeApp(config);
 
 var db = firebase.database();
 
