@@ -88,6 +88,34 @@
                     </table>
                 </div>
 
+                <div class="status" id="led">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Trạng thái</th>
+                                <th>Cảnh báo</th>
+                                <th>Đèn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="ledStatus"></td>
+                                <td id="ledAlert"></td>
+                                <td id="ledControl"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="background-color: #bbbbbb;">
+                                    <button onclick="checkLed()">Kiểm tra lại</button>
+                                </td>
+                                <td style="background-color: #bbbbbb;">
+                                    <button id="turnOnLed" onclick="turnOnLed()" style="width: 100px; margin-left: 30px;">Bật đèn</button>
+                                    <button id="turnOffLed" onclick="turnOffLed()" style="width: 100px; margin-left: 30px;">Tắt đèn</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
 
                 <!-- <button onclick="turnOnLight()">Turn On Light</button>
                 <button onclick="turnOffLight()">Turn Off Light</button>

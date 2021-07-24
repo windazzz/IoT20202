@@ -1,6 +1,7 @@
 $(document).ready(function() {
     checkTemp();
     checkHumidity();
+    checkLed();
 });
 
 
@@ -116,6 +117,58 @@ function turnOffPump() {
     document.getElementById('humidityControl').innerHTML = 'Đang tắt';
     document.getElementById('turnOnPump').style.display = "block";
     document.getElementById('turnOffPump').style.display = "none";
+}
+
+// led
+// vòi nước
+function checkLed() {
+    var dataRef = db.ref('/test/device/1/data/light');
+    dataRef.on('value', function(snapshot) {
+        // snapshot.forEach(function(childSnapshot) {
+        var childData = snapshot.val();
+        console.log(childData);
+        document.getElementById('ledStatus').innerHTML = childData;
+        // });
+        if(childData < 0.5) {
+            document.getElementById('ledAlert').innerHTML = 'Tối';
+        } else if(childData >= 0.5 && childData <= 2) {
+            document.getElementById('ledAlert').innerHTML = 'Sắp tối';
+        } else if(childData > 2) {
+            document.getElementById('ledAlert').innerHTML = 'Sáng';
+        }
+    });
+    var ledRef = db.ref('/test/device/1/control/led');
+    ledRef.on('value', function(snapshot) {
+        // snapshot.forEach(function(childSnapshot) {
+        var childData = snapshot.val();
+        if(childData == 0) {
+            document.getElementById('ledControl').innerHTML = 'Đang tắt';
+            document.getElementById('turnOnLed').style.display = "block";
+            document.getElementById('turnOffLed').style.display = "none";
+        } else {
+            document.getElementById('ledControl').innerHTML = 'Đang bật';
+            document.getElementById('turnOnLed').style.display = "none";
+            document.getElementById('turnOffLed').style.display = "block";
+        }
+    });
+}
+
+
+
+function turnOnLed() {
+    var dataRef = db.ref('/test/device/1/control/led');
+    dataRef.set(1);
+    document.getElementById('ledControl').innerHTML = 'Đang bật';
+    document.getElementById('turnOnLed').style.display = "none";
+    document.getElementById('turnOffLed').style.display = "block";
+}
+
+function turnOffLed() {
+    var dataRef = db.ref('/test/device/1/control/led');
+    dataRef.set(0);
+    document.getElementById('ledControl').innerHTML = 'Đang tắt';
+    document.getElementById('turnOnLed').style.display = "block";
+    document.getElementById('turnOffLed').style.display = "none";
 }
 
 // //led
