@@ -1,21 +1,20 @@
-function validateLogin() {
-    var username = document.getElementById('username');
-    var password = document.getElementById('password');
-    function getTemp() {
-        var abc;
-        var dataRef = db.ref('/data/temperature');
-        dataRef.on('value', function(snapshot) {
-            // snapshot.forEach(function(childSnapshot) {
-            var childData = snapshot.val();
-            abc = childData;
-            document.getElementById('temp').innerHTML = childData;
-            // });
-        });
-        console.log(abc);
-    }
-    // if() {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
-}
+// FirebaseUI config.
+var uiConfig = {
+    signInSuccessUrl: 'control.html',
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+            //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+            //firebase.auth.GithubAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            //firebase.auth.PhoneAuthProvider.PROVIDER_ID
+    ],
+    // Terms of service url.
+    tosUrl: 'control.html'
+  };
+  
+  // Initialize the FirebaseUI Widget using Firebase.
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+  // The start method will wait until the DOM is loaded.
+  ui.start('#firebaseui-auth-container', uiConfig);
