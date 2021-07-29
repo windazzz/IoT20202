@@ -99,6 +99,7 @@ function checkHumidity() {
             document.getElementById('turnOffPump').style.display = "block";
         }
     });
+    console.log(document.cookie)
 }
 
 
