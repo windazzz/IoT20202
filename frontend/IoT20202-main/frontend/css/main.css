@@ -67,3 +67,27 @@ body{
     left: 431px;
 }
 
+#control .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+}
+.item {
+    height: 200px;
+    width: 200px;
+    margin-right: 50px;
+    background-color: #99f3fa;
+    border-radius: 40px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.item .item-text {
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    padding-top: 80px;
+    font-size: large;
+}
