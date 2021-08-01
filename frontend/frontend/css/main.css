@@ -91,3 +91,12 @@ body{
     padding-top: 80px;
     font-size: large;
 }
+
+.notification {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.dropdown-content{
+    z-index: 99999999999;
+}
