@@ -2,7 +2,20 @@ $(document).ready(function() {
     checkTemp();
     checkHumidity();
     checkLed();
+    showIndexGarden1();
 });
+
+
+function showIndexGarden1() {
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    if(indexGardenControl != 1) {
+        $('.content').css("display", "none");
+        $('.notification').css("display", "block");
+    } else {
+        $('.content').css("display", "block");
+        $('.notification').css("display", "none");
+    }
+}
 
 
 var config = {
@@ -21,7 +34,9 @@ var db = firebase.database();
 
 // quạt
 function checkTemp() {
-    var dataRef = db.ref('/test/device/1/data/temperature');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToGetTemp = '/test/device/' + indexGardenControl + '/data/temperature';
+    var dataRef = db.ref(wayToGetTemp);
     dataRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
@@ -35,7 +50,9 @@ function checkTemp() {
             document.getElementById('tempAlert').innerHTML = 'Quá nóng';
         }
     });
-    var panRef = db.ref('/test/device/1/control/servo');
+    
+    var wayToControlTemp = '/test/device/' + indexGardenControl + '/control/servo';
+    var panRef = db.ref(wayToControlTemp);
     panRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
@@ -52,7 +69,9 @@ function checkTemp() {
 }
 
 function turnOnPan() {
-    var dataRef = db.ref('/test/device/1/control/servo');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToTurnOnPan = '/test/device/' + indexGardenControl + '/control/servo';
+    var dataRef = db.ref(wayToTurnOnPan);
     dataRef.set(1);
     document.getElementById('tempControl').innerHTML = 'Đang bật';
     document.getElementById('turnOnPan').style.display = "none";
@@ -60,7 +79,9 @@ function turnOnPan() {
 }
 
 function turnOffPan() {
-    var dataRef = db.ref('/test/device/1/control/servo');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToTurnOffPan = '/test/device/' + indexGardenControl + '/control/servo';
+    var dataRef = db.ref(wayToTurnOffPan);
     dataRef.set(0);
     document.getElementById('tempControl').innerHTML = 'Đang tắt';
     document.getElementById('turnOnPan').style.display = "block";
@@ -71,22 +92,25 @@ function turnOffPan() {
 
 // vòi nước
 function checkHumidity() {
-    var dataRef = db.ref('/test/device/1/data/humid');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToGetHumid = '/test/device/' + indexGardenControl + '/data/humid';
+    var dataRef = db.ref(wayToGetHumid);
     dataRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
         document.getElementById('humidityPercent').innerHTML = childData;
         // });
-        if(childData < 0.5) {
-            document.getElementById('humidityAlert').innerHTML = 'Quá khô';
-        } else if(childData >= 0.5 && childData <= 2) {
-            document.getElementById('humidityAlert').innerHTML = 'Bình thường';
-        } else if(childData > 2) {
-            document.getElementById('humidityAlert').innerHTML = 'Quá ẩm';
+        if(childData == 0) {
+            document.getElementById('humidityAlert').innerHTML = 'Ướt';
+        } else if(childData == 1) {
+            document.getElementById('humidityAlert').innerHTML = 'Khô';
         }
     });
-    var panRef = db.ref('/test/device/1/control/pump');
-    panRef.on('value', function(snapshot) {
+
+
+    var wayToGetHumid = '/test/device/' + indexGardenControl + '/control/pump';
+    var humidRef = db.ref(wayToGetHumid);
+    humidRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
         if(childData == 0) {
@@ -99,13 +123,14 @@ function checkHumidity() {
             document.getElementById('turnOffPump').style.display = "block";
         }
     });
-    console.log(document.cookie)
 }
 
 
 
 function turnOnPump() {
-    var dataRef = db.ref('/test/device/1/control/pump');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToTurnOnPump = '/test/device/' + indexGardenControl + '/control/pump';
+    var dataRef = db.ref(wayToTurnOnPump);
     dataRef.set(1);
     document.getElementById('humidityControl').innerHTML = 'Đang bật';
     document.getElementById('turnOnPump').style.display = "none";
@@ -113,7 +138,9 @@ function turnOnPump() {
 }
 
 function turnOffPump() {
-    var dataRef = db.ref('/test/device/1/control/pump');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToTurnOffPump = '/test/device/' + indexGardenControl + '/control/pump';
+    var dataRef = db.ref(wayToTurnOffPump);
     dataRef.set(0);
     document.getElementById('humidityControl').innerHTML = 'Đang tắt';
     document.getElementById('turnOnPump').style.display = "block";
@@ -123,11 +150,12 @@ function turnOffPump() {
 // led
 // vòi nước
 function checkLed() {
-    var dataRef = db.ref('/test/device/1/data/light');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToGetLight = '/test/device/' + indexGardenControl + '/data/light';
+    var dataRef = db.ref(wayToGetLight);
     dataRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
-        console.log(childData);
         document.getElementById('ledStatus').innerHTML = childData;
         // });
         if(childData < 0.5) {
@@ -138,7 +166,10 @@ function checkLed() {
             document.getElementById('ledAlert').innerHTML = 'Sáng';
         }
     });
-    var ledRef = db.ref('/test/device/1/control/led');
+
+    
+    var wayToControlLed = '/test/device/' + indexGardenControl + '/control/led';
+    var ledRef = db.ref(wayToControlLed);
     ledRef.on('value', function(snapshot) {
         // snapshot.forEach(function(childSnapshot) {
         var childData = snapshot.val();
@@ -157,7 +188,9 @@ function checkLed() {
 
 
 function turnOnLed() {
-    var dataRef = db.ref('/test/device/1/control/led');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToTurnOnLed = '/test/device/' + indexGardenControl + '/control/led';
+    var dataRef = db.ref(wayToTurnOnLed);
     dataRef.set(1);
     document.getElementById('ledControl').innerHTML = 'Đang bật';
     document.getElementById('turnOnLed').style.display = "none";
@@ -165,7 +198,9 @@ function turnOnLed() {
 }
 
 function turnOffLed() {
-    var dataRef = db.ref('/test/device/1/control/led');
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    var wayToTurnOffLed = '/test/device/' + indexGardenControl + '/control/led';
+    var dataRef = db.ref(wayToTurnOffLed);
     dataRef.set(0);
     document.getElementById('ledControl').innerHTML = 'Đang tắt';
     document.getElementById('turnOnLed').style.display = "block";

@@ -1,3 +1,20 @@
+$(document).ready(function() {
+    showIndexGarden();
+})
+
+
+function showIndexGarden() {
+    var indexGardenControl = localStorage.getItem('gardenControl');
+    if(indexGardenControl != 1) {
+        $('#chart1').css("display", "none");
+        $('.notification').css("display", "block");
+    } else {
+        $('#chart1').css("display", "block");
+        $('.notification').css("display", "none");
+    }
+}
+
+
 var config = {
     apiKey: "AIzaSyABbE3k9BSC4SZppDDIYL6mRDeBvH7ynYM",
     authDomain: "iotsmartgarden2020.web.app",
@@ -56,7 +73,9 @@ var a = {
 $(function () {
     //hàm chèn dữ liệu từ database realtime
     function updateTemp() {
-        var dataRef = db.ref('/test/device/1/data/temperature');
+        var indexGardenControl = localStorage.getItem('gardenControl');
+        var controlChart = '/test/device/' + indexGardenControl + '/data/temperature';
+        var dataRef = db.ref(controlChart);
         dataRef.on('value', function(snapshot) {
             // snapshot.forEach(function(childSnapshot) {
             var childData = snapshot.val();

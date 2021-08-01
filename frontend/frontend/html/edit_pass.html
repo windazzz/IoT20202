@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/edit_pass.css">
+    <title>IoT Project</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- main  -->
+        <div class="topnav" id="myTopnav">
+            <a href="../html/main.html">Trang chủ</a>
+            <a href="../html/control.html">Điều khiển</a>
+            <a href="../html/chart.html">Thống kê</a>
+            <a href="../html/about.html">Thông tin</a>
+            <div class="dropdown">
+                <button class="dropbtn">Tài khoản ▼ </button>
+                <div class="dropdown-content">
+                    <a href="../html/edit_pass.html">Đổi mật khẩu</a>
+                    <a href="../html/login.html">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3 class="header_edit_pass">Đổi mật khẩu</h3>
+    <center>        
+    Your Name <input id = "name" type="text"></body></input> <br><br>
+    User Name <input id = "username" type="text"></body></input> <br><br>
+    Old pass  <input id = "oldpass" type="text"></body></input> <br><br>    
+    New pass  <input id = "newpass" type="text"></body></input> <br><br>
+    
+    <button id = "update">Đổi mật khẩu</button>
+    </center>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+    <script src='https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js'></script>
+
+    <script id="MainScript">
+        var firebaseConfig = {
+            apiKey: "AIzaSyABbE3k9BSC4SZppDDIYL6mRDeBvH7ynYM",
+            authDomain: "iotsmartgarden2020.web.app",
+            databaseURL: "https://iotsmartgarden2020-default-rtdb.firebaseio.com",
+            projectId: "iotsmartgarden2020-default-rtdb",
+            storageBucket: "iotsmartgarden2020.appspot.com",
+            messagingSenderId: "787710934587"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+    var nameV, usernameV, passV;
+
+    function Ready(){
+        nameV = document.getElementById('name').value;
+        usernameV = document.getElementById('username').value;
+        passV = document.getElementById('newpass').value;
+    }
+
+    
+    document.getElementById('update').onclick = function(){
+        firebase.database().ref('user').once('value', function(snapshot){
+            var username = document.getElementById("username");
+            var oldpass = document.getElementById("oldpass");
+            snapshot.forEach(
+                function(ChildSnapshot){
+                let name = ChildSnapshot.val().username;
+                let old = ChildSnapshot.val().password;
+                if (username.value==name && oldpass.value == old){  
+                    Ready();
+                    firebase.database().ref('user/' + nameV).update({
+                        password: passV
+                    });
+                }
+                }
+            );
+            
+        });
+    }
+    // document.getElementById('update').onclick = function(){
+    //     Ready();
+    //     firebase.database().ref('user/' + nameV).update({
+    //         password: passV
+    //     });
+    // }
+    </script>
+</body>
+
+</html>
